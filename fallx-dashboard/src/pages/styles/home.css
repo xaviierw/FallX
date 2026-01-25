@@ -1,0 +1,25 @@
+.home-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f7f8fb, #eef1f6);
+}
+
+.home-card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 14px;
+  border: none;
+}
+
+.home-card h1 {
+  letter-spacing: 0.5px;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.btn-primary:hover {
+  background-color: #1e4fd7;
+  border-color: #1e4fd7;
+}
