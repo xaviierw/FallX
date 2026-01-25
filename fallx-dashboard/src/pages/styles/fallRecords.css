@@ -1,0 +1,138 @@
+.fall-records {
+  margin-top: 18px;
+  padding: 16px;
+  border: 1px solid #e8e8ef;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.fall-records-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.fall-records-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.fall-records-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fall-records-export {
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 10px;
+}
+
+.fall-records-export:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.fall-records-state {
+  padding: 10px 2px;
+  color: #666;
+}
+
+.fall-records-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.fall-records-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.fall-records-table thead th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  color: #9aa0aa;
+  padding: 12px 10px;
+  border-bottom: 1px solid #ededf5;
+}
+
+.fall-records-table tbody td {
+  padding: 14px 10px;
+  border-bottom: 1px solid #f1f1f7;
+  vertical-align: middle;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.strong {
+  font-weight: 700;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  border: 1px solid #e6e6ee;
+  background: #f7f7fb;
+}
+
+.badge.muted {
+  color: #666;
+}
+
+.badge.high {
+  color: #b42318;
+  background: #ffefef;
+  border-color: #ffd0d0;
+}
+
+.badge.medium {
+  color: #b54708;
+  background: #fff4e5;
+  border-color: #ffe0b5;
+}
+
+.badge.low {
+  color: #027a48;
+  background: #ecfdf3;
+  border-color: #c9f2d7;
+}
+
+.badge.sent {
+  color: #175cd3;
+  background: #eff8ff;
+  border-color: #cce6ff;
+}
+
+.badge.pending {
+  color: #b54708;
+  background: #fff4e5;
+  border-color: #ffe0b5;
+}
+
+.badge.resolved {
+  color: #027a48;
+  background: #ecfdf3;
+  border-color: #c9f2d7;
+}
+
+.link-btn {
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+  padding: 6px 8px;
+}

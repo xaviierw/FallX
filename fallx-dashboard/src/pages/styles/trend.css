@@ -1,0 +1,18 @@
+.trend-card {
+  margin-top: 16px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid #e5e7eb;
+}
+
+.trend-title {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 10px;
+}
+
+.trend-chart-wrapper {
+  height: 260px;   
+  width: 100%;
+}
