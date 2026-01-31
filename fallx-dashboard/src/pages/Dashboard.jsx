@@ -9,6 +9,10 @@ import { fetchAuthSession } from "aws-amplify/auth"
 
 const BACKEND_URL = import.meta.env.VITE_API_URL || "http://localhost:4000"
 
+// ✅ QuickSuite Dashboard URL (Option A)
+const QUICKSUITE_DASHBOARD_URL =
+  "https://ap-southeast-1.quicksight.aws.amazon.com/sn/accounts/128578896616/dashboards/d9c06e6f-2900-4009-abdd-b4ac668c7fc7?directory_alias=xavierwong"
+
 export default function Dashboard() {
   const [stats, setStats] = useState(null)
   const [loadingStats, setLoadingStats] = useState(true)
@@ -57,6 +61,16 @@ export default function Dashboard() {
       <main className="container-fluid px-3 py-3 dashboard-content">
         <div className="d-flex align-items-center justify-content-between mb-3">
           <h2 className="m-0 dashboard-title">FallX Dashboard</h2>
+
+          {/* ✅ QuickSuite link button */}
+          <a
+            href={QUICKSUITE_DASHBOARD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline-primary"
+          >
+            View Analytics (QuickSuite)
+          </a>
         </div>
 
         {loadingStats && <div className="text-muted">Loading KPIs...</div>}
