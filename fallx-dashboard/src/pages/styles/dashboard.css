@@ -1,0 +1,30 @@
+.dashboard-page {
+  background: #f7f8fb;
+  min-height: 100vh;
+}
+
+.dashboard-content {
+  max-width: 1400px;
+}
+
+.dashboard-title {
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.dashboard-section {
+  margin-top: 16px;
+}
+
+/* Navbar polish */
+.navbar-brand {
+  letter-spacing: 0.3px;
+}
+
+.nav-link {
+  font-weight: 600;
+}
+
+.nav-link.active {
+  font-weight: 800;
+}

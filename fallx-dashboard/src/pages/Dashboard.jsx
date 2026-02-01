@@ -2,45 +2,21 @@ import { useEffect, useState } from "react"
 import KPIs from "./components/KPI.jsx"
 import TrendChart from "./components/TrendChart.jsx"
 import FallRecordsTable from "./components/FallRecordsTable.jsx"
+import NavBar from "./components/NavBar.jsx"
 import "./styles/kpi.css"
-import "./styles/fallRecords.css"
-import { fetchAuthSession, signOut } from "aws-amplify/auth"
+import "./styles/dashboard.css"
+import { fetchAuthSession } from "aws-amplify/auth"
 
 const BACKEND_URL = import.meta.env.VITE_API_URL || "http://localhost:4000"
 
-// For Hosted UI logout (clears the Cognito browser session cookie)
-const COGNITO_DOMAIN = import.meta.env.VITE_COGNITO_DOMAIN // e.g. https://your-domain.auth.ap-southeast-1.amazoncognito.com
-const COGNITO_CLIENT_ID = import.meta.env.VITE_COGNITO_CLIENT_ID
+// ✅ QuickSuite Dashboard URL (Option A)
+const QUICKSUITE_DASHBOARD_URL =
+  "https://ap-southeast-1.quicksight.aws.amazon.com/sn/accounts/128578896616/dashboards/d9c06e6f-2900-4009-abdd-b4ac668c7fc7?directory_alias=xavierwong"
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null)
   const [loadingStats, setLoadingStats] = useState(true)
   const [error, setError] = useState("")
-
-  const [records, setRecords] = useState([])
-  const [loadingRecords, setLoadingRecords] = useState(true)
-  const [recordsError, setRecordsError] = useState("")
-
-  const handleLogout = async () => {
-    try {
-      // Clears Amplify local session + invalidates tokens
-      await signOut({ global: true })
-
-      // Also clear Hosted UI session cookie (prevents instant re-login)
-      if (COGNITO_DOMAIN && COGNITO_CLIENT_ID) {
-        const logoutRedirect = `${window.location.origin}/login`
-        window.location.href =
-          `${COGNITO_DOMAIN}/logout?client_id=${COGNITO_CLIENT_ID}&logout_uri=${encodeURIComponent(logoutRedirect)}`
-        return
-      }
-
-      // Fallback if you are not using Hosted UI
-      window.location.href = "/login"
-    } catch (e) {
-      console.error("Logout failed", e)
-      window.location.href = "/login"
-    }
-  }
 
   useEffect(() => {
     const fetchSummary = async () => {
@@ -76,92 +52,45 @@ export default function Dashboard() {
     fetchSummary()
   }, [])
 
-  useEffect(() => {
-    const fetchRecords = async () => {
-      try {
-        setLoadingRecords(true)
-        setRecordsError("")
-
-        const session = await fetchAuthSession()
-        const token = session.tokens?.idToken?.toString()
-
-        if (!token) {
-          throw new Error("No Cognito token found. Please login again.")
-        }
-
-        const res = await fetch(`${BACKEND_URL}/api/falls?limit=20`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-
-        const data = await res.json()
-
-        if (!res.ok || !data?.success) {
-          throw new Error(data?.message || "Failed to load fall records")
-        }
-
-        setRecords(Array.isArray(data.records) ? data.records : [])
-      } catch (e) {
-        setRecordsError(e?.message || "Failed to load fall records")
-      } finally {
-        setLoadingRecords(false)
-      }
-    }
-
-    fetchRecords()
-  }, [])
-
-  const exportCsv = () => {
-    if (!records || records.length === 0) return
-
-    const headers = ["device_id", "resident_name", "timestamp", "status", "severity"]
-    const rows = records.map((r) => [
-      safeCsv(r.device_id),
-      safeCsv(r.resident_name),
-      safeCsv(r.timestamp),
-      safeCsv(r.status),
-      safeCsv(r.severity),
-    ])
-
-    const csv = [headers.join(","), ...rows.map((row) => row.join(","))].join("\n")
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
-    const url = URL.createObjectURL(blob)
-
-    const a = document.createElement("a")
-    a.href = url
-    a.download = "fall-records.csv"
-    a.click()
-    URL.revokeObjectURL(url)
-  }
-
   return (
-    <div className="dashboard">
-      <div className="dashboard-header">
-        <h2 className="dashboard-title">FallX Dashboard</h2>
-        <button className="logout-btn" onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
+    <div className="dashboard-page">
+      {/* ✅ Reusable Navbar */}
+      <NavBar active="dashboard" />
 
-      {loadingStats && <div>Loading KPIs...</div>}
-      {error && <div className="error">{error}</div>}
+      {/* CONTENT */}
+      <main className="container-fluid px-3 py-3 dashboard-content">
+        <div className="d-flex align-items-center justify-content-between mb-3">
+          <h2 className="m-0 dashboard-title">FallX Dashboard</h2>
 
-      {!loadingStats && !error && stats && <KPIs stats={stats} />}
-      {!loadingStats && !error && !stats && <div>No stats available yet.</div>}
+          {/* ✅ QuickSuite link button */}
+          <a
+            href={QUICKSUITE_DASHBOARD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline-primary"
+          >
+            View Analytics (QuickSuite)
+          </a>
+        </div>
 
-      <TrendChart />
+        {loadingStats && <div className="text-muted">Loading KPIs...</div>}
+        {error && <div className="alert alert-danger py-2 mb-3">{error}</div>}
 
-      <FallRecordsTable
-        records={records}
-        loading={loadingRecords}
-        error={recordsError}
-        onExportCsv={exportCsv}
-      />
+        {!loadingStats && !error && stats && <KPIs stats={stats} />}
+        {!loadingStats && !error && !stats && (
+          <div className="alert alert-secondary py-2">
+            No stats available yet.
+          </div>
+        )}
+
+        <div className="dashboard-section mt-3">
+          <TrendChart />
+        </div>
+
+        <div className="dashboard-section mt-3">
+          <FallRecordsTable limit={20} />
+        </div>
+      </main>
     </div>
   )
-}
-
-function safeCsv(value) {
-  const s = value === null || value === undefined ? "" : String(value)
-  const escaped = s.replace(/"/g, '""')
-  return `"${escaped}"`
 }

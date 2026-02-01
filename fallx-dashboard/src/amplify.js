@@ -3,13 +3,28 @@ import { Amplify } from "aws-amplify";
 const userPoolId = import.meta.env.VITE_COGNITO_USER_POOL_ID;
 const clientId = import.meta.env.VITE_COGNITO_APP_CLIENT_ID;
 
-// IMPORTANT: domain MUST NOT include https://
-const domain = import.meta.env.VITE_COGNITO_DOMAIN.replace("https://", "").replace("http://", "");
+// IMPORTANT: domain MUST NOT include https:// or http://
+const domain = (import.meta.env.VITE_COGNITO_DOMAIN || "")
+  .replace("https://", "")
+  .replace("http://", "")
+  .replace(/\/$/, "");
 
-const redirectSignIn = [import.meta.env.VITE_REDIRECT_SIGN_IN];
-const redirectSignOut = [import.meta.env.VITE_REDIRECT_SIGN_OUT];
+// ✅ Always use the same origin the app is currently running on
+const origin = window.location.origin;
 
-console.log("AMPLIFY CONFIG LOADED", { userPoolId, clientId, domain, redirectSignIn, redirectSignOut });
+// If your callback route is exactly "/callback" (based on your earlier code)
+const redirectSignIn = [`${origin}/callback`];
+
+// Change this to `${origin}/login` ONLY if your app truly routes to /login after sign out
+const redirectSignOut = [`${origin}/`];
+
+console.log("AMPLIFY CONFIG LOADED", {
+  userPoolId,
+  clientId,
+  domain,
+  redirectSignIn,
+  redirectSignOut,
+});
 
 Amplify.configure({
   Auth: {
