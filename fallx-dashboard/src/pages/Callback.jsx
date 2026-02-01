@@ -16,11 +16,9 @@ console.log("CALLBACK PARAMS:", Object.fromEntries(new URLSearchParams(window.lo
 
     const finish = async () => {
       try {
-        // The hosted UI redirect may take a moment to settle.
-        // We'll retry a few times to allow Amplify to store tokens.
         for (let i = 0; i < 10; i++) {
           try {
-            await getCurrentUser(); // throws if not signed in yet
+            await getCurrentUser();
             const session = await fetchAuthSession();
             const idToken = session.tokens?.idToken?.toString();
             if (idToken) {
@@ -28,7 +26,7 @@ console.log("CALLBACK PARAMS:", Object.fromEntries(new URLSearchParams(window.lo
               return;
             }
           } catch (e) {
-            // not ready yet
+            
           }
           await sleep(300);
         }

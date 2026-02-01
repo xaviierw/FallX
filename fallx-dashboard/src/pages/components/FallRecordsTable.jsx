@@ -9,15 +9,7 @@ function toSGT(utcIso) {
   const d = new Date(utcIso)
   if (Number.isNaN(d.getTime())) return "-"
 
-  return d.toLocaleString("en-SG", {
-    timeZone: "Asia/Singapore",
-    hour12: true,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-  })
+  return d.toLocaleString("en-SG", { timeZone: "Asia/Singapore", hour12: true, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", })
 }
 
 function safeCsv(value) {
@@ -108,14 +100,7 @@ export default function FallRecordsTable({ limit = 20 }) {
     <div className="fall-records">
       <div className="fall-records-header">
         <h3 className="fall-records-title">Fall Records</h3>
-
-        <button
-          className="fall-records-export"
-          onClick={exportCsv}
-          disabled={rows.length === 0}
-        >
-          Export as CSV
-        </button>
+        <button className="fall-records-export" onClick={exportCsv} disabled={rows.length === 0}>Export as CSV</button>
       </div>
 
       {loading && <div className="fall-records-state">Loading fall records...</div>}
