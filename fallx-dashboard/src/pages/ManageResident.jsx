@@ -7,13 +7,11 @@ export default function ManageResidents() {
 
   return (
     <>
-      {/* Top Navigation */}
       <NavBar active="residents" />
 
       <div className="container-fluid px-3 py-4">
         <div className="card shadow-sm">
           <div className="card-body p-4">
-            {/* Header row */}
             <div className="d-flex align-items-center justify-content-between mb-3">
               <h3 className="fw-bold m-0">Manage Residents</h3>
 

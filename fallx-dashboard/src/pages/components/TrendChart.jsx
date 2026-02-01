@@ -1,25 +1,10 @@
 import { useEffect, useState } from "react";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend, } from "chart.js";
 import { Line } from "react-chartjs-2";
-import "../styles/trend.css"; // 👈 IMPORTANT
+import "../styles/trend.css";
 import { fetchAuthSession } from "aws-amplify/auth";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend
-);
+ChartJS.register( CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend );
 
 const BACKEND_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
@@ -88,7 +73,7 @@ export default function TrendChart() {
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // 👈 KEY FIX
+    maintainAspectRatio: false,
     plugins: {
       legend: { display: true },
     },
@@ -103,7 +88,6 @@ export default function TrendChart() {
   return (
     <div className="trend-card">
       <div className="trend-title">Falls Trend (Last 7 Days)</div>
-
       <div className="trend-chart-wrapper">
         <Line data={chartData} options={options} />
       </div>
