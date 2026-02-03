@@ -14,6 +14,7 @@ export default function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/manage-residents" element={<ManageResidents />} />
       <Route path="/manage-devices" element={<ManageDevices />} />
+      
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

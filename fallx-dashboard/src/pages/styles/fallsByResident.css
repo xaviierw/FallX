@@ -1,0 +1,20 @@
+.fbr-card {
+  padding: 16px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.fbr-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.fbr-subtitle {
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+
+.fbr-chart-wrapper {
+  height: 280px;
+}

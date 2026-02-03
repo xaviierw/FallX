@@ -3,6 +3,7 @@ import KPIs from "./components/KPI.jsx"
 import TrendChart from "./components/TrendChart.jsx"
 import FallRecordsTable from "./components/FallRecordsTable.jsx"
 import NavBar from "./components/NavBar.jsx"
+import FallsByResidentChart from "./components/FallsByResidentChart.jsx"
 import "./styles/kpi.css"
 import "./styles/dashboard.css"
 import { fetchAuthSession } from "aws-amplify/auth"
@@ -81,6 +82,10 @@ export default function Dashboard() {
 
         <div className="dashboard-section mt-3">
           <TrendChart />
+        </div>
+
+        <div className="dashboard-section mt-3">
+          <FallsByResidentChart />
         </div>
 
         <div className="dashboard-section mt-3">
